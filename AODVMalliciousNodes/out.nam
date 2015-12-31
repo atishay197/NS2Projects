@@ -1,0 +1,21 @@
+n -t * -s 0  -x 0 -y 0 -Z 0 -z 30+i*100  -v circle -c black
+n -t * -s 1  -x 0 -y 0 -Z 0 -z 30+i*100  -v circle -c black
+n -t * -s 2  -x 0 -y 0 -Z 0 -z 30+i*100  -v circle -c black
+n -t * -s 3  -x 0 -y 0 -Z 0 -z 30+i*100  -v circle -c black
+n -t * -s 4  -x 0 -y 0 -Z 0 -z 30+i*100  -v circle -c black
+n -t * -s 5  -x 0 -y 0 -Z 0 -z 30+i*100  -v circle -c black
+V -t * -v 1.0a5 -a 0
+W -t * -x 800 -y 800
+A -t * -n 1 -p 0 -o 0x7fffffff -c 30 -a 1
+A -t * -h 1 -m 1073741823 -s 0
+c -t * -i 4 -n brown
+c -t * -i 0 -n blue
+c -t * -i 5 -n tan
+c -t * -i 1 -n red
+c -t * -i 6 -n gold
+c -t * -i 2 -n chocolate
+c -t * -i 7 -n black
+c -t * -i 3 -n red
+n -t 0 -s 0 -S COLOR -c blue -o 0 -i blue -I 0
+n -t 0 -s 1 -S COLOR -c red -o blue -i red -I blue
+n -t 0 -s 5 -S COLOR -c blue -o red -i blue -I red

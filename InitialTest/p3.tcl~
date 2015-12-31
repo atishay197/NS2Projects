@@ -1,0 +1,59 @@
+#Create simulator object
+set ns [new Simulator]
+
+#Define color for data flow
+$ns color 1 Blue
+$ns color 2 Red
+
+#Open nam trace and trace file
+set nf [open out.nam w]
+$ns namtrace-all $nf
+set nt [open tcp.trace w]
+$ns trace-all $nt
+
+#define finish
+proc finish {} {
+	global ns nf nt
+	$ns flush-trace
+	close $nf
+	close $nt
+	exec nam out.nam &
+	exit 0
+}
+
+#Create 3 nodes
+set n0 [$ns node]
+set n1 [$ns node]
+set n2 [$ns node]
+
+#Create link btw nodes
+$ns duplex-link $n0 $n1 10Mb 50ms DropTail
+$ns duplex-link $n1 $n2 50Kb 100ms DropTail
+
+#Set Queue size
+$ns queue-limit $n1 $n2 10 
+
+#link position
+$ns duplex-link-op $n0 $n1 orient right
+$ns duplex-link-op $n1 $n2 orient right
+
+# monitor queue (nam)
+$ns duplex-link-op $n1 $n2 queuePos 0.5
+
+#Setup TCP connection
+set tcp [new Agent/TCP]
+$tcp set class_ 1
+$ns attach-agent $n0 $tcp
+set sink [new Agent/TCPSink]
+$ns attach-agent $n2 $sink
+$ns connect $tcp $sink
+
+#Setup FTP ovet TCP
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
+
+$ns at 0.5 "$ftp start"
+$ns at 3.0 "$ftp stop"
+$ns at 4.0 "finish"
+
+$ns run
